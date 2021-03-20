@@ -4,14 +4,8 @@
 #include <time.h>
 using namespace std;
 
-void reverseString(string& s, int beginning, int length, int iterations)
+void reverseString(string& s, int beginning, int length)
 {
-    int last = s.length();
-    /*for (int i = 0; i < last / 2; i++)
-    {
-        swap(s[i], s[last - i - 1]);
-    }*/
-
     if (beginning > length / 2)
     {
         return;
@@ -19,53 +13,16 @@ void reverseString(string& s, int beginning, int length, int iterations)
     else
     {
         swap(s[beginning], s[length - beginning]);
-        int i = beginning + 1;
-        reverseString(s, ++beginning, length, 0);
+        reverseString(s, ++beginning, length);
     }
-
-    //works, doesn't store string value
-    /*// store the size of the string
-    size_t numOfChars = s.size();
-
-    if (numOfChars == 1) {
-        cout << s << endl;
-    }
-    else {
-        cout << s[numOfChars - 1];
-
-        // function recursion
-        reverseString(s.substr(0, numOfChars - 1), 0, 0, 0);
-    }*/
-
-    //works, not recursive
-    /*int last = s.length();
-    for (int i = 0; i < last / 2; i++)
-    {
-        swap(s[i], s[last - i - 1]);
-    }*/
-}
-
-template <class T>
-void swap(T* a, T* b)
-{
-    T t = *a;
-    *a = *b;
-    *b = t;
 }
 
 bool isPalindrome(string s)
 {
     string temp = s;
-    reverseString(temp, 0, temp.length() - 1, 0);
+    reverseString(temp, 0, temp.length() - 1);
 
-	if (temp == s)
-	{
-		return true;
-	}
-	else
-	{
-		return false;
-	}
+    return temp == s;
 }
 
 template <class T>
@@ -81,10 +38,10 @@ int partition(T arr[], int low, int high)
         if (arr[j] <= pivot)
         {
             i++;    // increment index of smaller element
-            swap(&arr[i], &arr[j]);
+            swap(arr[i], arr[j]);
         }
     }
-    swap(&arr[i + 1], &arr[high]);
+    swap(arr[i + 1], arr[high]);
     return (i + 1);
 }
 
@@ -95,7 +52,7 @@ void quickSort(T arr[], int low, int high)
     {
         /* pi is partitioning index, arr[p] is now
            at right place */
-        T pi = partition(arr, low, high);
+        int pi = partition(arr, low, high);
 
         // Separately sort elements before
         // partition and after partition
@@ -119,7 +76,7 @@ int main()
             cout << "Enter a string to reverse!\n";
             cin >> input;
             output = input;
-            reverseString(output, 0, output.length() - 1, 0);
+            reverseString(output, 0, output.length() - 1);
             cout << input << " reversed is " << output << endl;
         }
         else if (stoi(input) == 2)
